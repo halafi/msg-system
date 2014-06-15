@@ -42,6 +42,7 @@
     </dependencyManagement>
     
     <dependencies>
+        
         <!-- javaee-web-api -->
         <dependency>
             <groupId>javax</groupId>
@@ -50,6 +51,14 @@
             <scope>provided</scope>
         </dependency>
         
+        <!-- servlets -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+        </dependency>
+
+        <!-- derby -->
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
@@ -62,7 +71,6 @@
             <version>${version.derby}</version>
         </dependency>
 
-        
         <!-- Junit -->
         <dependency>
             <groupId>junit</groupId>
@@ -115,7 +123,6 @@
             <artifactId>spring-context</artifactId>
         </dependency>
 
-        
     </dependencies>
 
     <build>

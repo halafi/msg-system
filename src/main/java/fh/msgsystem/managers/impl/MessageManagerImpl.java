@@ -1,7 +1,8 @@
-package fh.msgsystem.managers;
+package fh.msgsystem.managers.impl;
 
 import fh.msgsystem.entities.Message;
 import fh.msgsystem.exceptions.NonExistingEntityException;
+import fh.msgsystem.managers.MessageManager;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,6 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+/**
+ * 
+ * @author Filip
+ */
 @Repository
 public class MessageManagerImpl implements MessageManager {
     static final Logger LOG = LoggerFactory.getLogger(MessageManagerImpl.class);
@@ -25,6 +30,7 @@ public class MessageManagerImpl implements MessageManager {
             throw new IllegalArgumentException("message is null");
         }
         em.persist(msg);
+        LOG.info("message id="+msg.getId()+"persisted");
     }
     
     @Transactional
@@ -49,6 +55,7 @@ public class MessageManagerImpl implements MessageManager {
             throw new NonExistingEntityException("tried to remove msg that does not exist");
         } else {
             em.remove(msgFromDb);
+            LOG.info("message id="+msg.getId()+"removed");
         }
     }
 
@@ -64,6 +71,7 @@ public class MessageManagerImpl implements MessageManager {
             throw new NonExistingEntityException("tried to update msg that does not exist");
         } else {
             em.merge(msg);
+            LOG.info("message id="+msg.getId()+"updated");
         }
     }
 

@@ -1,8 +1,6 @@
-package fh.msgsystem.managers.impl;
+package fh.msgsystem.managers;
 
 import fh.msgsystem.entities.Message;
-import fh.msgsystem.exceptions.NonExistingEntityException;
-import fh.msgsystem.managers.MessageManager;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

@@ -1,9 +1,8 @@
-package fh.msgsystem.services.impl;
+package fh.msgsystem.services;
 
 import fh.msgsystem.entities.MessageDTO;
 import fh.msgsystem.managers.MessageManager;
-import fh.msgsystem.services.MessageService;
-import fh.msgsystem.util.DTOConverter;
+import fh.msgsystem.entities.DTOConverter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

@@ -1,4 +1,6 @@
-package fh.msgsystem.util;
+package fh.msgsystem.entities;
+
+
 
 import fh.msgsystem.entities.Message;
 import fh.msgsystem.entities.MessageDTO;

@@ -1,7 +1,6 @@
 package fh.msgsystem.managers;
 
 import fh.msgsystem.entities.Message;
-import fh.msgsystem.exceptions.NonExistingEntityException;
 import java.util.List;
 
 public interface MessageManager {

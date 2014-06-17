@@ -1,4 +1,4 @@
-package fh.msgsystem.exceptions;
+package fh.msgsystem.managers;
 
 import javax.persistence.PersistenceException;
 

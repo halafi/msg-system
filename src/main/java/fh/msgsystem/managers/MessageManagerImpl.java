@@ -27,6 +27,9 @@ public class MessageManagerImpl implements MessageManager {
         if(msg == null) {
             throw new IllegalArgumentException("message is null");
         }
+        if(msg.getAuthor().equals(null) || msg.getAuthor().length() == 0) {
+            throw new IllegalArgumentException("author is null or empty");
+        }
         em.persist(msg);
         LOG.info("message id="+msg.getId()+"persisted");
     }

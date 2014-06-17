@@ -10,7 +10,7 @@
     </head>
     <!-- header / navbar -->
     <body>
-        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!--<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -19,9 +19,9 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="\List">Home</a>
+                    <a class="navbar-brand" href="./List">Home</a>
 	        </div>
-                <!--<div class="navbar-collapse collapse">
+                <div class="navbar-collapse collapse">
                     <form class="navbar-form navbar-right" role="form">
                         <div class="form-group">
                             <input type="text" placeholder="Username" class="form-control"/>
@@ -34,11 +34,17 @@
                             <button class="btn btn-primary">Sign up</button>
                         </a>
                     </form>
-                </div>-->
-            </div>
-            
-            <!-- error messages 
-            <div class="container">
-                <h:messages styleClass="list-unstyled" errorClass="alert alert-danger" infoClass="alert alert-success" warnClass="alert alert-warning" globalOnly="false" />
+                </div>
             </div>-->
+            
+            <!-- error messages -->
+            
+                <c:if test="${not empty error}">
+                <div class="container">
+                    <div class="alert alert-danger">
+                        <c:out escapeXml="false" value="${error}"/>
+                    </div>
+                </div>
+                </c:if>
+            
 	</div>

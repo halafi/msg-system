@@ -15,16 +15,22 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 @WebServlet(name = "MessageServlet", urlPatterns = {
     MessageServlet.ACTION_LIST,
     MessageServlet.ACTION_REMOVE_MESSAGE,
-    MessageServlet.ACTION_EDIT_MESSAGE})
+    MessageServlet.ACTION_EDIT_MESSAGE,
+    MessageServlet.ACTION_POST_MESSAGE,
+    MessageServlet.ACTION_FIND_MESSAGE})
 public class MessageServlet extends HttpServlet {
     
     static final String ACTION_LIST = "/List"; 
     static final String ACTION_REMOVE_MESSAGE = "/RemoveMessage";
     static final String ACTION_EDIT_MESSAGE = "/EditMessage";
+    static final String ACTION_POST_MESSAGE = "/PostMessage";
+    static final String ACTION_FIND_MESSAGE = "/FindMessage";
     
+    static final String ATTRIBUTE_PREPARED_MESSAGE = "preparedMessage";
     static final String ATTRIBUTE_MESSAGES = "messages";
     static final String ATTRIBUTE_MESSAGE_FORM = "messageForm";    
-    static final String ATTRIBUTE_ERROR = "error";    
+    static final String ATTRIBUTE_ERROR = "error"; 
+    static final String ATTRIBUTE_SHOW = "show";
 
     static final String JSP_LIST = "/index.jsp";
     
@@ -38,11 +44,6 @@ public class MessageServlet extends HttpServlet {
     }
     
     private void list(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        /*MessageDTO msg = new MessageDTO();
-        msg.setAuthor("AUTO");
-        msg.setBody("hello there");
-        msg.setHeader("hello");
-        ms.createMessage(msg);*/
         request.setCharacterEncoding("utf-8");
         request.setAttribute(ATTRIBUTE_MESSAGES, ms.readAllMessages());
         request.getRequestDispatcher(JSP_LIST).forward(request, response);
@@ -59,33 +60,38 @@ public class MessageServlet extends HttpServlet {
                 request.setAttribute(ATTRIBUTE_MESSAGE_FORM, messageForm);
                 request.setAttribute(ATTRIBUTE_MESSAGES, ms.readAllMessages());
                 request.getRequestDispatcher(JSP_LIST).forward(request, response);
-            } 
-            else {
+            } else {
                 ms.createMessage(message);
                 request.setAttribute(ATTRIBUTE_MESSAGES, ms.readAllMessages());
                 request.getRequestDispatcher(JSP_LIST).forward(request, response);
             }
         } 
-
-    private void editMessage(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    
+    private void editMessage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         MessageForm messageForm = MessageForm.extractFromRequest(request);
         StringBuilder errors = new StringBuilder();
-        MessageDTO msg = messageForm.validateAndToMessageDTO(errors);
-        
-        if (msg == null) {
-                request.setAttribute(ATTRIBUTE_ERROR, errors.toString());
-                request.setAttribute(ATTRIBUTE_MESSAGE_FORM, messageForm);
-                request.setAttribute(ATTRIBUTE_MESSAGES, ms.readAllMessages());
-                request.getRequestDispatcher(JSP_LIST).forward(request, response);
-        } 
-        else {
-            msg.setId(MessageForm.extractIdFromRequest(request));
-            ms.updateMessage(msg);
+        MessageDTO message = messageForm.validateAndToMessageDTO(errors);
+        if (message == null) {
+            request.setAttribute(ATTRIBUTE_ERROR, errors.toString());
+            request.setAttribute(ATTRIBUTE_MESSAGE_FORM, messageForm);
+            request.setAttribute(ATTRIBUTE_MESSAGES, ms.readAllMessages());
+            request.getRequestDispatcher(JSP_LIST).forward(request, response);
+        } else {
+            message.setId(MessageForm.extractIdFromRequest(request));
+            ms.updateMessage(message);
             request.setAttribute(ATTRIBUTE_MESSAGES, ms.readAllMessages());
             request.getRequestDispatcher(JSP_LIST).forward(request, response);
         }
+
+    }
+    
+    private void findMessage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("utf-8");
+        request.setAttribute(ATTRIBUTE_PREPARED_MESSAGE, ms.readMessage(MessageForm.extractIdFromRequest(request)));
+        request.setAttribute(ATTRIBUTE_MESSAGES, ms.readAllMessages());
+        request.setAttribute(ATTRIBUTE_SHOW, "true");
+        request.getRequestDispatcher(JSP_LIST).forward(request, response);
     }
         
     private void removeMessage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -106,7 +112,13 @@ public class MessageServlet extends HttpServlet {
                 break;
             case ACTION_EDIT_MESSAGE:
                 editMessage(request, response);
-                break;        
+                break;
+            case ACTION_POST_MESSAGE:
+                postMessage(request, response);
+                break;  
+            case ACTION_FIND_MESSAGE:
+                findMessage(request, response);
+                break; 
             default:
                 throw new RuntimeException("Unknown operation: " + request.getServletPath());
         }

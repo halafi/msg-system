@@ -25,18 +25,20 @@ public class MessageForm {
     
     public MessageDTO validateAndToMessageDTO(StringBuilder errors) {
         MessageDTO msg = new MessageDTO();
-        //msg.setRentPrice(stringToBigDecimal(getRentPrice(), "rentPrice", 0, errors));
         if (getAuthor() == null || getAuthor().isEmpty()) {
-            msg.setAuthor("--");            
+            errors.append("Field '").append("Author").append("' is not filled").append(". <br />");
+            msg.setAuthor(null);            
         } else {
             msg.setAuthor(getAuthor());                                    
         }
         if (getHeader() == null || getHeader().isEmpty()) {
-            msg.setHeader("--");
+            errors.append("Field '").append("Header").append("' is not filled").append(". <br />");
+            msg.setHeader(null);
         } else {
             msg.setHeader(getHeader());
         }
         if (getBody()== null || getBody().isEmpty()) {
+            errors.append("Field '").append("Body").append("' is not filled").append(". <br />");
             msg.setBody(null);
         } else {
             msg.setBody(getBody());                                    
@@ -87,7 +89,5 @@ public class MessageForm {
     public void setBody(String body) {
         this.body = body;
     }
-
-    
     
 }
